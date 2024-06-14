@@ -1,0 +1,7 @@
+@use '../../styles/variables.scss' as *;
+.main{
+    flex: 1;
+    background-color: $bg-dark;
+    height: 88.9vh;
+    position:relative;
+}

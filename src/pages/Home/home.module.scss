@@ -1,0 +1,16 @@
+@use '../../styles/mixins.scss' as *;
+
+.features {
+  display: flex;
+  flex-direction: column;
+
+  .srOnly {
+    @include srOnly;
+  }
+}
+
+@media (min-width: 920px) {
+  .features {
+    flex-direction: row;
+  }
+}
