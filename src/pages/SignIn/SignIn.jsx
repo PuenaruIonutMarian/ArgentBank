@@ -1,9 +1,11 @@
 import style from './signin.module.scss';
 import { FaUserCircle } from "react-icons/fa";
 import Wrapper from '../../components/Wrapper/Wrapper';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../features/auth/authApi';
+import { loginAsync } from '../../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { fetchUserProfile } from '../../features/user/userApi';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -11,12 +13,19 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
   const error = useSelector((state) => state.auth.error);
-
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
+    dispatch(loginAsync({ email, password }));
   };
+
+  useEffect(() => {
+    if (authStatus === 'succeeded') {
+      dispatch(fetchUserProfile());
+      navigate('/user/profile');
+    }
+  }, [authStatus, dispatch, navigate]);
 
   return (
     <Wrapper>

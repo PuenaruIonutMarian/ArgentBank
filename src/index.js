@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './styles/globals.scss'
+import './styles/globals.scss';
 import Home from './pages/Home/Home';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import SignIn from './pages/SignIn/SignIn';
-import User from './pages/User/User';
+import UserProfile from './pages/User/UserProfile';
 import { Provider } from 'react-redux';
 import store from './app/store';
 
@@ -20,12 +20,13 @@ root.render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/user/:id" element={<User />} />
+          <Route path="/user/profile" element={<UserProfile />} /> 
         </Routes>
         <Footer />
       </Router>
     </Provider>
   </React.StrictMode>
 );
+
 
 

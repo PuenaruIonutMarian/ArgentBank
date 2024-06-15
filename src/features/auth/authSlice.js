@@ -1,5 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { login, signup } from './authApi';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { login } from './authApi'; 
+
+export const loginAsync = createAsyncThunk('auth/login', async ({ email, password }) => {
+  const response = await login({ email, password });
+  return response.body.token; 
+});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -7,32 +12,24 @@ const authSlice = createSlice({
     token: null,
     status: 'idle',
     error: null,
+    user: null,
   },
   reducers: {
-    logout: (state) => {
+    logout(state) {
       state.token = null;
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
+      .addCase(loginAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(loginAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.token = action.payload.token;
+        state.token = action.payload; 
       })
-      .addCase(login.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(signup.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(signup.fulfilled, (state) => {
-        state.status = 'succeeded';
-      })
-      .addCase(signup.rejected, (state, action) => {
+      .addCase(loginAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

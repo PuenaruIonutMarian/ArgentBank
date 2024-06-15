@@ -8,7 +8,7 @@ const Home = () => {
     <main>
       <Hero />
       <section className={style.features}>
-        <h2 class={style.srOnly}>Features</h2>
+        <h2 className={style.srOnly}>Features</h2>
         {featuresInfo.map(feature => <FeatureItem key={feature.id} {...feature} />)}
       </section>
     
