@@ -1,0 +1,11 @@
+@use '../../styles/mixins.scss' as *;
+.userProfile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 20px;
+    
+    .srOnly{
+    @include srOnly;
+    }
+}

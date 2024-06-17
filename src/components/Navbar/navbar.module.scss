@@ -6,37 +6,35 @@
   align-items: center;
   padding: 5px 20px;
 
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
 
-.mainNav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  .activeLink {
+    color: #42b983;
+  }
 
-.mainNav a.router-link-exact-active {
-  color: #42b983;
-}
+  .mainNavItem {
+    text-decoration: none;
+    margin-right: 0.5rem;
+  }
 
-.mainNavItem {
-  text-decoration: none;
-  margin-right: 0.5rem;
-}
+  .mainNavItem:hover {
+    text-decoration: underline;
+  }
 
-.mainNav-item:hover {
-  text-decoration: underline;
-}
+  .mainNavLogo {
+    display: flex;
+    align-items: center;
+  }
 
-.mainNavLogo {
-  display: flex;
-  align-items: center;
-}
+  .mainNavLogoImage {
+    max-width: 100%;
+    width: 200px;
+  }
 
-.mainNavLogoImage {
-  max-width: 100%;
-  width: 200px;
-}
-
-.srOnly{
-  @include srOnly;
-}
-
+  .srOnly {
+    @include srOnly;
+  }
 }

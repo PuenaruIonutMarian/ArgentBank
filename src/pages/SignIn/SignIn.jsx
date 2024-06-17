@@ -1,17 +1,18 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginAsync, setToken } from '../../features/auth/authSlice';
+import { fetchUserProfile } from '../../features/user/userApi';
 import style from './signin.module.scss';
 import { FaUserCircle } from "react-icons/fa";
 import Wrapper from '../../components/Wrapper/Wrapper';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginAsync } from '../../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
-import { fetchUserProfile } from '../../features/user/userApi';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.status);
+  const token = useSelector((state) => state.auth.token);
   const error = useSelector((state) => state.auth.error);
   const navigate = useNavigate();
 
@@ -26,6 +27,19 @@ const SignIn = () => {
       navigate('/user/profile');
     }
   }, [authStatus, dispatch, navigate]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      dispatch(setToken(storedToken));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUserProfile());
+    }
+  }, [token, dispatch]);
 
   return (
     <Wrapper>
