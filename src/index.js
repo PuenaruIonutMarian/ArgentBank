@@ -9,6 +9,7 @@ import SignIn from './pages/SignIn/SignIn';
 import UserProfile from './pages/User/UserProfile';
 import { Provider, useSelector } from 'react-redux';
 import store from './app/store';
+import Error from './pages/Error/Error';
 
 const PrivateRoute = ({ element: Element }) => {
   const token = useSelector((state) => state.auth.token);
@@ -25,6 +26,7 @@ root.render(
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/user/profile" element={<PrivateRoute element={UserProfile} />} /> 
+          <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
       </Router>

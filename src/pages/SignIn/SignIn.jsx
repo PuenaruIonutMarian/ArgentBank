@@ -6,6 +6,7 @@ import { fetchUserProfile } from '../../features/user/userApi';
 import style from './signin.module.scss';
 import { FaUserCircle } from "react-icons/fa";
 import Wrapper from '../../components/Wrapper/Wrapper';
+import Loader from '../../components/Loader/Loader';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -68,7 +69,7 @@ const SignIn = () => {
           <button type="submit" className={style.signInButton}>
             Sign In
           </button>
-          {authStatus === 'loading' && <p>Loading...</p>}
+          {authStatus === 'loading' && <Loader />}
           {authStatus === 'failed' && <p className={style.errorMessage}>{error}</p>}
         </form>
       </section>
