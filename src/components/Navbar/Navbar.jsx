@@ -1,5 +1,5 @@
 import style from './navbar.module.scss';
-import { Link, useNavigate, NavLink } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import argentBankLogo from '../../assets/images/argentBankLogo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle } from "react-icons/fa";
@@ -10,11 +10,9 @@ const Navbar = () => {
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/signin');
   };
 
   return (
@@ -33,9 +31,9 @@ const Navbar = () => {
             <Link to="/user/profile" className={style.mainNavItem}>
               <FaUserCircle /> <span>{user ? user.firstName : 'Profile'}</span>
             </Link>
-            <NavLink exact="true" to="/signin" className={style.mainNavItem} onClick={handleLogout}>
+            <Link to="/signin" className={style.mainNavItem} onClick={handleLogout}>
               <MdLogout /> <span>Sign Out</span>
-            </NavLink>
+            </Link>
           </>
         )}
       </div>

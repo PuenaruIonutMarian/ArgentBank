@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/globals.scss';
 import Home from './pages/Home/Home';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import SignIn from './pages/SignIn/SignIn';
 import UserProfile from './pages/User/UserProfile';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from './app/store';
 
+const PrivateRoute = ({ element: Element }) => {
+  const token = useSelector((state) => state.auth.token);
+  return token ? <Element /> : <Navigate to="/signin" />;
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,13 +24,10 @@ root.render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/user/profile" element={<UserProfile />} /> 
+          <Route path="/user/profile" element={<PrivateRoute element={UserProfile} />} /> 
         </Routes>
         <Footer />
       </Router>
     </Provider>
   </React.StrictMode>
 );
-
-
-
