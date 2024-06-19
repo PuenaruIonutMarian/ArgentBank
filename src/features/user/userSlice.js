@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserProfile } from './userApi';
+import { fetchUserProfile, updateUserProfile } from './userApi';
 
 const userSlice = createSlice({
   name: 'user',
@@ -7,8 +7,13 @@ const userSlice = createSlice({
     data: null,
     status: 'idle',
     error: null,
+    isEditing: false,
   },
-  reducers: {},
+  reducers: {
+    setIsEditing(state, action) {
+      state.isEditing = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserProfile.pending, (state) => {
@@ -21,8 +26,21 @@ const userSlice = createSlice({
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = { ...state.data, ...action.payload.body };
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
+
+export const { setIsEditing } = userSlice.actions;
 
 export default userSlice.reducer;

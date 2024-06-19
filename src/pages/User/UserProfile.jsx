@@ -7,9 +7,10 @@ import Wrapper from '../../components/Wrapper/Wrapper';
 const UserProfile = () => {
   const user = useSelector((state) => state.user.data);
   const userStatus = useSelector((state) => state.user.status);
+  const isEditing = useSelector((state) => state.user.isEditing);
 
   return (
-    <Wrapper>
+    <Wrapper isEditing={isEditing}>
     <div className={style.userProfile}>
       
       {userStatus === 'loading' && <p>Loading...</p>}

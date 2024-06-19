@@ -1,3 +1,5 @@
+@use '../../styles/variables.scss' as *;
+
 .signInContent {
   position: absolute;
   box-sizing: border-box;
@@ -47,9 +49,13 @@
       font-weight: bold;
       margin-top: 1rem;
       border: none;
-      background-color: #00bc77;
-      color: #fff;
+      background-color: $color-green;
+      color: $color-light;
       text-decoration: underline;
+    }
+
+    .errorMessage {
+      color: $color-error;
     }
   }
 

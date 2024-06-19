@@ -31,7 +31,7 @@ const Navbar = () => {
             <Link to="/user/profile" className={style.mainNavItem}>
               <FaUserCircle /> <span>{user ? user.firstName : 'Profile'}</span>
             </Link>
-            <Link to="/signin" className={style.mainNavItem} onClick={handleLogout}>
+            <Link to="/" className={style.mainNavItem} onClick={handleLogout}>
               <MdLogout /> <span>Sign Out</span>
             </Link>
           </>

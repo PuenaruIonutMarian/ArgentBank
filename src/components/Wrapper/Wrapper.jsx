@@ -1,11 +1,11 @@
-import style from './wrapper.module.scss'
+import style from './wrapper.module.scss';
 
-const Wrapper = ({children}) => {
+const Wrapper = ({ children, isEditing }) => {
   return (
-    <main className={style.main}>
+    <main className={isEditing ? style.mainEditing : style.main}>
       {children}
     </main>
   );
-}
+};
 
-export default Wrapper
+export default Wrapper;
