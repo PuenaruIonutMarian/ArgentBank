@@ -4,8 +4,7 @@ import { updateUserProfile } from '../../features/user/userApi';
 import style from './header.module.scss';
 import { setIsEditing } from '../../features/user/userSlice';
 
-const Header = ({ firstName, lastName }) => {
-  const isEditing = useSelector((state) => state.user.isEditing);
+const Header = ({ firstName, lastName, isEditing }) => {
   const [newFirstName, setNewFirstName] = useState(firstName);
   const [newLastName, setNewLastName] = useState(lastName);
   const dispatch = useDispatch();

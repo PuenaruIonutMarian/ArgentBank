@@ -26,7 +26,7 @@ const UserProfile = () => {
         {userStatus === 'loading' && <Loader />}
         {userStatus === 'succeeded' && user && (
           <>
-            <Header firstName={user.firstName} lastName={user.lastName} />
+            <Header firstName={user.firstName} lastName={user.lastName} isEditing={isEditing} />
             <h2 className={style.srOnly}>Accounts</h2>
             <BankAccount />
           </>
