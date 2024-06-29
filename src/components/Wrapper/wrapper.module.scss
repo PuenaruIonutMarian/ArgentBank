@@ -2,13 +2,13 @@
 .main{
     flex: 1;
     background-color: $bg-dark;
-    height: 88.9vh;
+    min-height: 88.9vh;
     position:relative;
 }
 
 .mainEditing {
     flex: 1;
     background-color: $bg-light;
-    height: 88.9vh;
+    min-height: 88.9vh;
     position:relative;
 }

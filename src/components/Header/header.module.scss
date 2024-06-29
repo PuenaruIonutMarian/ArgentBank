@@ -72,3 +72,10 @@
   }
 
 }
+
+@media (max-width: 800px) {
+  .InputContainer{
+    flex-direction: column;
+  }
+
+}

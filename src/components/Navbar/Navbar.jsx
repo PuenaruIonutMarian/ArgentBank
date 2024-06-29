@@ -21,7 +21,7 @@ const Navbar = () => {
         <img className={style.mainNavLogoImage} src={argentBankLogo} alt="Argent Bank Logo" />
       </Link>
       <h1 className={style.srOnly}>Argent Bank</h1>
-      <div>
+      <div className={style.mainNavItems}>
         {!token ? (
           <Link to="/signin" className={style.mainNavItem}>
             <FaUserCircle /> <span>Sign in</span>
