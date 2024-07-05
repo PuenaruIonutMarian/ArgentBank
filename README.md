@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Tableau de bord de Sportsee - projet 12 Openclassrooms
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce projet est une application bancaire en utilisant React et Redux pour créer une expérience utilisateur dynamique et réactive.
 
-## Available Scripts
+## Fonctionnalités
 
-In the project directory, you can run:
+- L'utilisateur peut visiter la page d'accueil
+- L'utilisateur peut se connecter au système
+- L'utilisateur peut se déconnecter du système
+- L'utilisateur ne peut voir les informations relatives à son propre profil qu'après s'être connecté avec succès
+- L'utilisateur peut modifier le profil et conserver les données dans la base de données
 
-### `npm start`
+## Utilisation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Cloner le dépôt depuis GitHub :
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- git clone https://github.com/PuenaruIonutMarian/ArgentBank.git
 
-### `npm test`
+2. Installer les dépendances :
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- npm install
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Lancer l'application :
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- npm start
+- L'application sera accessible à l'adresse http://localhost:3000.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## API
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Les données réelles sont récupérées à partir de l'API fournie par OpenClassrooms.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Vous pouvez trouver la documentation de l'API :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API/tree/master
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Pour cloner l'API:
 
-## Learn More
+- git clone https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API.git
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Documentation
 
-### Code Splitting
+Ce projet inclut des commentaires JSDoc pour documenter le code. JSDoc est un outil qui extrait la documentation à partir de commentaires spécialement formatés dans le code.
+La documentation générée se trouve dans le dossier `docs`. Pour consulter la documentation, ouvrez le fichier `index.html` situé dans le dossier `docs` dans votre navigateur web.
+Pour générer la documentation localement, assurez-vous d'avoir JSDoc installé globalement :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- npm install -g jsdoc
 
-### Analyzing the Bundle Size
+Ensuite, exécutez la commande suivante dans le répertoire du projet :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- jsdoc -c jsdoc.json
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Cela générera la documentation à partir des commentaires JSDoc dans le code et la placera dans le dossier docs.

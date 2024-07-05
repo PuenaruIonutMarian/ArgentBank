@@ -7,6 +7,10 @@ import Header from '../../components/Header/Header';
 import Wrapper from '../../components/Wrapper/Wrapper';
 import Loader from '../../components/Loader/Loader';
 
+/**
+ * Composant représentant le profil utilisateur.
+ * @returns {JSX.Element} Le composant de profil utilisateur.
+ */
 const UserProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data);
@@ -14,6 +18,9 @@ const UserProfile = () => {
   const isEditing = useSelector((state) => state.user.isEditing);
   const token = useSelector((state) => state.auth.token);
 
+  /**
+   * Utilise un effet pour récupérer le profil utilisateur lorsque le jeton est présent et le statut de l'utilisateur est 'idle'.
+   */
   useEffect(() => {
     if (token && userStatus === 'idle') {
       dispatch(fetchUserProfile());

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: features/user/userApi.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: features/user/userApi.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axiosInstance from '../../services/axiosInstance/axiosInstance';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+/**
+ * Cette fonction asynchrone est utilisée pour récupérer le profil de l'utilisateur depuis le serveur.
+ * Elle envoie une requête POST à l'endpoint '/user/profile' avec un token d'authentification dans les headers.
+ * Si la requête réussit, elle renvoie les données du profil de l'utilisateur.
+ * Si la requête échoue, elle lance une erreur.
+ * @function fetchUserProfile
+ * @param {Function} _ - Argument placeholder non utilisé.
+ * @param {Function} getState - Fonction pour obtenir l'état actuel du store Redux.
+ * @returns {Promise&lt;Object>} Les données du profil de l'utilisateur.
+ * @throws {Error} Si une erreur se produit lors de la récupération du profil de l'utilisateur.
+ */
+export const fetchUserProfile = createAsyncThunk('user/fetchUserProfile', async (_, { getState }) => {
+  const state = getState();
+  const token = state.auth.token;
+  try {
+    const response = await axiosInstance.post('/user/profile', null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil utilisateur :', error);
+    throw error;
+  }
+});
+
+/**
+ * Cette fonction asynchrone est utilisée pour mettre à jour le profil de l'utilisateur sur le serveur.
+ * Elle envoie une requête PUT à l'endpoint '/user/profile' avec les nouvelles données de profil et un token d'authentification dans les headers.
+ * Si la requête réussit, elle renvoie les données mises à jour du profil de l'utilisateur.
+ * Si la requête échoue, elle lance une erreur.
+ * @function updateUserProfile
+ * @param {Object} payload - Les données à mettre à jour.
+ * @param {string} payload.firstName - Le prénom de l'utilisateur.
+ * @param {string} payload.lastName - Le nom de famille de l'utilisateur.
+ * @param {string} payload.token - Le jeton d'authentification de l'utilisateur.
+ * @returns {Promise&lt;Object>} Les données mises à jour du profil de l'utilisateur.
+ * @throws {Error} Si une erreur se produit lors de la mise à jour du profil utilisateur.
+ */
+export const updateUserProfile = createAsyncThunk('user/updateUserProfile', async ({ firstName, lastName, token }) => {
+  try {
+    const response = await axiosInstance.put('/user/profile', { firstName, lastName }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du profil utilisateur :', error);
+    throw error;
+  }
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Error.html">Error</a></li><li><a href="module-Loader.html">Loader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BankAccount">BankAccount</a></li><li><a href="global.html#FeatureItem">FeatureItem</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Hero">Hero</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PrivateRoute">PrivateRoute</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#UserAccounts">UserAccounts</a></li><li><a href="global.html#UserProfile">UserProfile</a></li><li><a href="global.html#Wrapper">Wrapper</a></li><li><a href="global.html#axiosInstance">axiosInstance</a></li><li><a href="global.html#extraReducers">extraReducers</a></li><li><a href="global.html#featuresInfo">featuresInfo</a></li><li><a href="global.html#fetchUserProfile">fetchUserProfile</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginAsync">loginAsync</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#reducers">reducers</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#updateUserProfile">updateUserProfile</a></li><li><a href="global.html#userSlice">userSlice</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Jul 05 2024 22:13:28 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

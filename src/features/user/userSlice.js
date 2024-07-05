@@ -1,52 +1,114 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchUserProfile, updateUserProfile } from './userApi';
 
-
+/**
+ * Slice utilisateur pour gérer l'état de l'utilisateur.
+ */
 const userSlice = createSlice({
-  name: 'user', // Nom du slice
-  initialState: { // État initial
-    data: null, // Données de l'utilisateur
-    status: 'idle', // Statut de la requête
-    error: null, // Message d'erreur
-    isEditing: false, // Indicateur d'édition
+  /**
+   * Nom du slice.
+   * @type {string}
+   */
+  name: 'user',
+
+  /**
+   * État initial.
+   * @type {Object}
+   * @property {Object|null} data - Données de l'utilisateur.
+   * @property {string} status - Statut de la requête.
+   * @property {string|null} error - Message d'erreur.
+   * @property {boolean} isEditing - Indicateur d'édition.
+   */
+  initialState: {
+    data: null,
+    status: 'idle',
+    error: null,
+    isEditing: false,
   },
-  reducers: { // Réducteurs synchrones
-    setIsEditing(state, action) { // Mettre à jour l'indicateur d'édition
-      state.isEditing = action.payload; // Définir isEditing à la valeur de l'action
+
+  /**
+   * Réducteurs synchrones.
+   */
+  reducers: {
+    /**
+     * Mettre à jour l'indicateur d'édition.
+     * @param {Object} state - État actuel.
+     * @param {Object} action - Action contenant la nouvelle valeur.
+     */
+    setIsEditing(state, action) {
+      state.isEditing = action.payload;
     },
-    setStatus(state, status) { // Mettre à jour le statut
-      state.status = status; // Définir le statut à la valeur passée
+
+    /**
+     * Mettre à jour le statut.
+     * @param {Object} state - État actuel.
+     * @param {Object} status - Nouveau statut.
+     */
+    setStatus(state, status) {
+      state.status = status;
     },
-    setError(state, error) { // Mettre à jour le message d'erreur
-      state.error = error; // Définir l'erreur à la valeur passée
+
+    /**
+     * Mettre à jour le message d'erreur.
+     * @param {Object} state - État actuel.
+     * @param {Object} error - Nouveau message d'erreur.
+     */
+    setError(state, error) {
+      state.error = error;
     },
-    setData(state, data) { // Mettre à jour les données de l'utilisateur
-      state.data = data; // Définir les données à la valeur passée
+
+    /**
+     * Mettre à jour les données de l'utilisateur.
+     * @param {Object} state - État actuel.
+     * @param {Object} data - Nouvelles données de l'utilisateur.
+     */
+    setData(state, data) {
+      state.data = data;
     },
   },
-  extraReducers: (builder) => { // Réducteurs asynchrones
-    const handlePending = (state) => { // Gérer l'état de la requête en attente
-      state.status = 'loading'; // Définir le statut à "loading"
+
+  /**
+   * Réducteurs asynchrones.
+   */
+  extraReducers: (builder) => {
+    /**
+     * Gérer l'état de la requête en attente.
+     * @param {Object} state - État actuel.
+     */
+    const handlePending = (state) => {
+      state.status = 'loading';
     };
-    const handleFulfilled = (state, action, isUpdate = false) => { // Gérer l'état de la requête réussie
-      state.status = 'succeeded'; // Définir le statut à "succeeded"
-      state.data = isUpdate ? { ...state.data, ...action.payload.body } : action.payload.body; // Mettre à jour les données
+
+    /**
+     * Gérer l'état de la requête réussie.
+     * @param {Object} state - État actuel.
+     * @param {Object} action - Action contenant les nouvelles données.
+     * @param {boolean} [isUpdate=false] - Indicateur si c'est une mise à jour.
+     */
+    const handleFulfilled = (state, action, isUpdate = false) => {
+      state.status = 'succeeded';
+      state.data = isUpdate ? { ...state.data, ...action.payload.body } : action.payload.body;
     };
-    const handleRejected = (state, action) => { // Gérer l'état de la requête échouée
-      state.status = 'failed'; // Définir le statut à "failed"
-      state.error = action.error.message; // Définir le message d'erreur
+
+    /**
+     * Gérer l'état de la requête échouée.
+     * @param {Object} state - État actuel.
+     * @param {Object} action - Action contenant le message d'erreur.
+     */
+    const handleRejected = (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
     };
 
     builder
-      .addCase(fetchUserProfile.pending, handlePending) // Gérer l'état pending de fetchUserProfile
-      .addCase(fetchUserProfile.fulfilled, (state, action) => handleFulfilled(state, action)) // Gérer l'état fulfilled de fetchUserProfile
-      .addCase(fetchUserProfile.rejected, handleRejected) // Gérer l'état rejected de fetchUserProfile
-      .addCase(updateUserProfile.pending, handlePending) // Gérer l'état pending de updateUserProfile
-      .addCase(updateUserProfile.fulfilled, (state, action) => handleFulfilled(state, action, true)) // Gérer l'état fulfilled de updateUserProfile
-      .addCase(updateUserProfile.rejected, handleRejected); // Gérer l'état rejected de updateUserProfile
+      .addCase(fetchUserProfile.pending, handlePending)
+      .addCase(fetchUserProfile.fulfilled, (state, action) => handleFulfilled(state, action))
+      .addCase(fetchUserProfile.rejected, handleRejected)
+      .addCase(updateUserProfile.pending, handlePending)
+      .addCase(updateUserProfile.fulfilled, (state, action) => handleFulfilled(state, action, true))
+      .addCase(updateUserProfile.rejected, handleRejected);
   },
 });
-
 
 export const { setIsEditing, setStatus, setError, setData } = userSlice.actions;
 

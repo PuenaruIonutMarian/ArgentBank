@@ -1,62 +1,100 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { login } from './authApi';
 
-// Créer une thunk asynchrone pour la connexion
+/**
+ * Créer une thunk asynchrone pour la connexion.
+ * @function loginAsync
+ * @param {Object} param0 - Les informations d'identification de l'utilisateur.
+ * @param {string} param0.email - L'email de l'utilisateur.
+ * @param {string} param0.password - Le mot de passe de l'utilisateur.
+ * @param {Object} param1 - Les outils de Redux Toolkit.
+ * @param {Function} param1.rejectWithValue - Fonction pour rejeter avec une valeur.
+ * @returns {Promise<string>} Le token d'authentification si la connexion réussit.
+ * @throws {Error} Si une erreur se produit lors de la connexion.
+ */
 export const loginAsync = createAsyncThunk(
-  'auth/login', // Nom de la thunk
-  async ({ email, password }, { rejectWithValue }) => { // Fonction asynchrone pour gérer la connexion
+  'auth/login',
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await login({ email, password }); // Appel à l'API de connexion
-      return response.body.token; // Retourner le token si succès
+      const response = await login({ email, password });
+      return response.body.token;
     } catch (error) {
-      // Gérer les différentes erreurs de connexion
       if (error.message.includes('Password is invalid')) {
-        return rejectWithValue('Wrong password'); // Mot de passe incorrect
+        return rejectWithValue('Mot de passe incorrect');
       } else if (error.message.includes('User not found')) {
-        return rejectWithValue('User does not exist'); // Utilisateur non trouvé
+        return rejectWithValue("L'utilisateur n'existe pas");
       } else {
-        return rejectWithValue('An unknown error occurred'); // Erreur inconnue
+        return rejectWithValue('Une erreur inconnue est survenue');
       }
     }
   }
 );
 
 const authSlice = createSlice({
-  name: 'auth', // Nom du slice
-  initialState: { // État initial
-    token: localStorage.getItem('token') || null, // Récupérer le token du localStorage
-    status: 'idle', // Statut de la requête
-    error: null, // Message d'erreur
+  /**
+   * Nom du slice.
+   * @type {string}
+   */
+  name: 'auth',
+
+  /**
+   * État initial.
+   * @type {Object}
+   * @property {string|null} token - Le token d'authentification.
+   * @property {string} status - Le statut de la requête.
+   * @property {string|null} error - Le message d'erreur.
+   */
+  initialState: {
+    token: localStorage.getItem('token') || null,
+    status: 'idle',
+    error: null,
   },
-  reducers: { // Réducteurs synchrones
-    logout(state) { // Gérer la déconnexion
-      state.token = null; // Supprimer le token
-      state.status = 'idle'; // Réinitialiser le statut
-      localStorage.removeItem('token'); // Supprimer le token du localStorage
+
+  /**
+   * Réducteurs synchrones.
+   */
+  reducers: {
+    /**
+     * Gérer la déconnexion.
+     * @param {Object} state - L'état actuel.
+     */
+    logout(state) {
+      state.token = null;
+      state.status = 'idle';
+      localStorage.removeItem('token');
     },
-    //ce reducteur permet de mettre à jour le token dans le localStorage et dans l'état ( state)
-    setToken(state, action) { // Mettre à jour le token
-      state.token = action.payload; // Définir le token à la valeur de l'action
-      localStorage.setItem('token', action.payload); // Enregistrer le token dans le localStorage
+
+    /**
+     * Mettre à jour le token.
+     * @param {Object} state - L'état actuel.
+     * @param {Object} action - L'action contenant le nouveau token.
+     */
+    setToken(state, action) {
+      state.token = action.payload;
+      localStorage.setItem('token', action.payload);
     },
   },
-  extraReducers: (builder) => { // Réducteurs asynchrones
+
+  /**
+   * Réducteurs asynchrones.
+   */
+  extraReducers: (builder) => {
     builder
       .addCase(loginAsync.pending, (state) => {
-        state.status = 'loading'; // Définir le statut à "loading"
-        state.error = null; // Réinitialiser le message d'erreur
+        state.status = 'loading';
+        state.error = null;
       })
-      .addCase(loginAsync.fulfilled, (state, action) => {//>>> practique c'est ce qui permet de mettre à jour le token
-        state.status = 'succeeded'; // Définir le statut à "succeeded"
-        state.token = action.payload; // Mettre à jour le token
-        localStorage.setItem('token', action.payload); // Enregistrer le token dans le localStorage
+      .addCase(loginAsync.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.token = action.payload;
+        localStorage.setItem('token', action.payload);
       })
       .addCase(loginAsync.rejected, (state, action) => {
-        state.status = 'failed'; // Définir le statut à "failed"
-        state.error = action.payload || action.error.message; // Définir le message d'erreur
+        state.status = 'failed';
+        state.error = action.payload || action.error.message;
       });
   },
 });
 
-export const { logout, setToken } = authSlice.actions; // Exporter les actions
-export default authSlice.reducer; // Exporter le réducteur
+export const { logout, setToken } = authSlice.actions;
+export default authSlice.reducer;

@@ -3,6 +3,10 @@ import Hero from '../../components/Hero/Hero'
 import FeatureItem from '../../components/FeatureItem/FeatureItem'
 import {featuresInfo} from '../../data/FeaturesInfo'
 
+/**
+ * Composant représentant la page d'accueil.
+ * @returns {JSX.Element} Le composant de la page d'accueil.
+ */
 const Home = () => {
   return (
     <main>

@@ -8,6 +8,10 @@ import { FaUserCircle } from "react-icons/fa";
 import Wrapper from '../../components/Wrapper/Wrapper';
 import Loader from '../../components/Loader/Loader';
 
+/**
+ * Composant représentant le formulaire de connexion.
+ * @returns {JSX.Element} Le composant de formulaire de connexion.
+ */
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,11 +21,18 @@ const SignIn = () => {
   const error = useSelector((state) => state.auth.error);
   const navigate = useNavigate();
 
+    /**
+   * Gestionnaire de soumission du formulaire de connexion.
+   * @param {Event} e - L'événement de soumission du formulaire.
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginAsync({ email, password }));
   };
 
+  /**
+   * Utilise un effet pour gérer les changements d'authentification et récupérer le profil utilisateur si nécessaire.
+   */
   useEffect(() => {
     const handleAuthChange = () => {
       if (authStatus === 'succeeded' || token) {
