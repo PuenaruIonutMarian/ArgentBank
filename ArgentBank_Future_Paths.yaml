@@ -1,0 +1,248 @@
+swagger: "2.0"
+info:
+  title: "Bank Argent Transactions API documentation"
+  description: "Contains all available API endpoints for managing transactions"
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: "localhost:3001"
+basePath: "/api/v1"
+schemes:
+  - "http"
+paths:
+  /user/accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Account Module
+      summary: "Get all user accounts"
+      description: "API for retrieving all user accounts"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Accounts retrieved successfully"
+          schema:
+            $ref: "#/definitions/AccountsResponse"
+        400:
+          description: "Invalid Fields"
+        500:
+          description: "Internal Server Error"
+  /user/accounts/{accountId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: "Get all transactions for a specific account"
+      description: "API for retrieving all transactions for a specific account"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Transactions retrieved successfully"
+          schema:
+            $ref: "#/definitions/TransactionsResponse"
+        400:
+          description: "Invalid Fields"
+        500:
+          description: "Internal Server Error"
+  /user/accounts/{accountId}/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: "Get transaction details"
+      description: "API for retrieving details of a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Transaction details retrieved successfully"
+          schema:
+            $ref: "#/definitions/TransactionDetailResponse"
+        400:
+          description: "Invalid Fields"
+        404:
+          description: "Transaction not found"
+        500:
+          description: "Internal Server Error"
+  /user/accounts/{accountId}/transactions/{transactionId}/info:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: "Update transaction information"
+      description: "API for updating information (Category and Notes) of a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Update transaction information payload"
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionInfoUpdate"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Transaction information updated successfully"
+          schema:
+            $ref: "#/definitions/TransactionDetailResponse"
+        400:
+          description: "Invalid Fields"
+        404:
+          description: "Transaction not found"
+        500:
+          description: "Internal Server Error"
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: "Delete transaction information"
+      description: "API for deleting information (Category and Notes) of a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Transaction information deleted successfully"
+        400:
+          description: "Invalid Fields"
+        404:
+          description: "Transaction not found"
+        500:
+          description: "Internal Server Error"
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  Accounts:
+    type: "object"
+    properties:
+      accountId:
+        type: "integer"
+        description: "ID of the account"
+      accountName:
+        type: "string"
+        description: "Name of the account"
+      accountBalance:
+        type: "integer"
+        description: "The balance of the account"
+      accountType:
+        type: "string"
+        description: "The availability of the account"
+  Transaction:
+    type: "object"
+    properties:
+      transactionId:
+        type: "integer"
+        description: "ID of the transaction"
+      date:
+        type: "string"
+        format: "date"
+        description: "Transaction date"
+      description:
+        type: "string"
+        description: "Transaction description"
+      amount:
+        type: "number"
+        description: "Transaction amount"
+      balance:
+        type: "number"
+        description: "Balance after the transaction"
+  TransactionDetail:
+    type: "object"
+    allOf:
+      - $ref: "#/definitions/Transaction"
+      - properties:
+          transactionType:
+            type: "string"
+            description: "Type of the transaction (e.g., Electronic)"
+          category:
+            type: "string"
+            description: "Category of the transaction"
+          notes:
+            type: "string"
+            description: "Notes for the transaction"
+  TransactionInfoUpdate:
+    type: "object"
+    properties:
+      category:
+        type: "string"
+        description: "Category of the transaction"
+      notes:
+        type: "string"
+        description: "Notes for the transaction"
+  TransactionsResponse:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+      message:
+        type: "string"
+      body:
+        type: "array"
+        items:
+          $ref: "#/definitions/Transaction"
+  TransactionDetailResponse:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+      message:
+        type: "string"
+      body:
+        $ref: "#/definitions/TransactionDetail"
+  AccountsResponse:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+      message:
+        type: "string"
+      body:
+        type: "array"
+        items:
+          $ref: "#/definitions/Accounts"
