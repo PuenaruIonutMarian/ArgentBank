@@ -8,13 +8,14 @@ host: "localhost:3001"
 basePath: "/api/v1"
 schemes:
   - "http"
+  - "https"
 paths:
   /user/accounts:
     get:
       security:
         - Bearer: []
       tags:
-        - Account Module
+        - Accounts Module
       summary: "Get all user accounts"
       description: "API for retrieving all user accounts"
       produces:
@@ -25,17 +26,17 @@ paths:
           schema:
             $ref: "#/definitions/AccountsResponse"
         400:
-          description: "Invalid Fields"
+          $ref: '#/responses/BadRequest'
         500:
-          description: "Internal Server Error"
+          $ref: '#/responses/InternalServerError'
   /user/accounts/{accountId}/transactions:
     get:
       security:
         - Bearer: []
       tags:
-        - Transaction Module
-      summary: "Get all transactions for a specific account"
-      description: "API for retrieving all transactions for a specific account"
+        - Transactions Module
+      summary: "Get all transactions for a specific account on the current month"
+      description: "API for retrieving all transactions for a specific account on the current month"
       parameters:
         - in: "path"
           name: "accountId"
@@ -50,15 +51,15 @@ paths:
           schema:
             $ref: "#/definitions/TransactionsResponse"
         400:
-          description: "Invalid Fields"
+          $ref: '#/responses/BadRequest'
         500:
-          description: "Internal Server Error"
+          $ref: '#/responses/InternalServerError'
   /user/accounts/{accountId}/transactions/{transactionId}:
     get:
       security:
         - Bearer: []
       tags:
-        - Transaction Module
+        - Transactions Module
       summary: "Get transaction details"
       description: "API for retrieving details of a specific transaction"
       parameters:
@@ -80,19 +81,19 @@ paths:
           schema:
             $ref: "#/definitions/TransactionDetailResponse"
         400:
-          description: "Invalid Fields"
+          $ref: '#/responses/BadRequest'
         404:
-          description: "Transaction not found"
+          $ref: '#/responses/NotFound'
         500:
-          description: "Internal Server Error"
-  /user/accounts/{accountId}/transactions/{transactionId}/info:
-    put:
+          $ref: '#/responses/InternalServerError'
+  /user/accounts/{accountId}/transactions/{transactionId}/category:
+    post:
       security:
         - Bearer: []
       tags:
-        - Transaction Module
-      summary: "Update transaction information"
-      description: "API for updating information (Category and Notes) of a specific transaction"
+        - Transaction Category Module
+      summary: "Add a category to a transaction"
+      description: "Add a category to a specific transaction"
       parameters:
         - in: "path"
           name: "accountId"
@@ -106,30 +107,67 @@ paths:
           type: "string"
         - in: "body"
           name: "body"
-          description: "Update transaction information payload"
+          description: "Category payload"
           required: true
           schema:
-            $ref: "#/definitions/TransactionInfoUpdate"
+            $ref: "#/definitions/CategoryUpdate"
       produces:
         - "application/json"
       responses:
         200:
-          description: "Transaction information updated successfully"
+          description: "Category added successfully"
           schema:
             $ref: "#/definitions/TransactionDetailResponse"
         400:
-          description: "Invalid Fields"
+          $ref: '#/responses/BadRequest'
         404:
-          description: "Transaction not found"
+          $ref: '#/responses/NotFound'
         500:
-          description: "Internal Server Error"
+          $ref: '#/responses/InternalServerError'
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Category Module
+      summary: "Update a category of a transaction"
+      description: "Update the category of a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Category payload"
+          required: true
+          schema:
+            $ref: "#/definitions/CategoryUpdate"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Category updated successfully"
+          schema:
+            $ref: "#/definitions/TransactionDetailResponse"
+        400:
+          $ref: '#/responses/BadRequest'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
     delete:
       security:
         - Bearer: []
       tags:
-        - Transaction Module
-      summary: "Delete transaction information"
-      description: "API for deleting information (Category and Notes) of a specific transaction"
+        - Transaction Category Module
+      summary: "Delete a category of a transaction"
+      description: "Delete the category of a specific transaction"
       parameters:
         - in: "path"
           name: "accountId"
@@ -145,52 +183,214 @@ paths:
         - "application/json"
       responses:
         200:
-          description: "Transaction information deleted successfully"
+          description: "Category deleted successfully"
         400:
-          description: "Invalid Fields"
+          $ref: '#/responses/BadRequest'
         404:
-          description: "Transaction not found"
+          $ref: '#/responses/NotFound'
         500:
-          description: "Internal Server Error"
+          $ref: '#/responses/InternalServerError'
+  /user/accounts/{accountId}/transactions/{transactionId}/notes:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Notes Module
+      summary: "Add notes to a transaction"
+      description: "Add notes to a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Notes payload"
+          required: true
+          schema:
+            $ref: "#/definitions/NotesUpdate"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Notes added successfully"
+          schema:
+            $ref: "#/definitions/TransactionDetailResponse"
+        400:
+          $ref: '#/responses/BadRequest'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Notes Module
+      summary: "Update notes of a transaction"
+      description: "Update the notes of a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Notes payload"
+          required: true
+          schema:
+            $ref: "#/definitions/NotesUpdate"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Notes updated successfully"
+          schema:
+            $ref: "#/definitions/TransactionDetailResponse"
+        400:
+          $ref: '#/responses/BadRequest'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Notes Module
+      summary: "Delete notes of a transaction"
+      description: "Delete the notes of a specific transaction"
+      parameters:
+        - in: "path"
+          name: "accountId"
+          description: "ID of the account"
+          required: true
+          type: "string"
+        - in: "path"
+          name: "transactionId"
+          description: "ID of the transaction"
+          required: true
+          type: "string"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Notes deleted successfully"
+        400:
+          $ref: '#/responses/BadRequest'
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalServerError'
 securityDefinitions:
   Bearer:
     type: "apiKey"
     name: "Authorization"
     in: "header"
+responses:
+  BadRequest:
+    description: Bad request
+    schema:
+      $ref: '#/definitions/ErrorResponse400'
+  NotFound:
+    description: Resource not found
+    schema:
+      $ref: '#/definitions/ErrorResponse404'
+  InternalServerError:
+    description: Internal server error
+    schema:
+      $ref: '#/definitions/ErrorResponse500'
 definitions:
   Accounts:
     type: "object"
     properties:
       accountId:
-        type: "integer"
+        type: "string"
         description: "ID of the account"
       accountName:
         type: "string"
         description: "Name of the account"
+      accountCurrency:
+        type: "string"
+        description: "The account's currency (e.g., Euro, Dollars...)"
       accountBalance:
-        type: "integer"
+        type: "number"
+        format: "double"
         description: "The balance of the account"
       accountType:
         type: "string"
         description: "The availability of the account"
+  ErrorResponse400:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+        example: 400
+      message:
+        type: "string"
+        example: "Invalid input provided"
+      error:
+        type: "string"
+        example: "Bad Request"
+  ErrorResponse404:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+        example: 404
+      message:
+        type: "string"
+        example: "Transaction not found"
+      error:
+        type: "string"
+        example: "Not Found"
+  ErrorResponse500:
+    type: "object"
+    properties:
+      status:
+        type: "integer"
+        example: 500
+      message:
+        type: "string"
+        example: "An unexpected error occurred on the server"
+      error:
+        type: "string"
+        example: "Internal Server Error"
   Transaction:
     type: "object"
     properties:
       transactionId:
-        type: "integer"
+        type: "string"
         description: "ID of the transaction"
+      transactionCurrency:
+        type: "string"
+        description: "Currency of the transaction"
       date:
         type: "string"
         format: "date"
-        description: "Transaction date"
+        description: "Date of the transaction (current month only)"
       description:
         type: "string"
         description: "Transaction description"
       amount:
         type: "number"
+        format: "double"
         description: "Transaction amount"
       balance:
         type: "number"
+        format: "double"
         description: "Balance after the transaction"
   TransactionDetail:
     type: "object"
@@ -199,19 +399,22 @@ definitions:
       - properties:
           transactionType:
             type: "string"
-            description: "Type of the transaction (e.g., Electronic)"
+            description: "Type of the transaction (e.g., Electronic, Check)"
           category:
             type: "string"
             description: "Category of the transaction"
           notes:
             type: "string"
             description: "Notes for the transaction"
-  TransactionInfoUpdate:
+  CategoryUpdate:
     type: "object"
     properties:
       category:
         type: "string"
         description: "Category of the transaction"
+  NotesUpdate:
+    type: "object"
+    properties:
       notes:
         type: "string"
         description: "Notes for the transaction"
@@ -220,8 +423,10 @@ definitions:
     properties:
       status:
         type: "integer"
+        example: 200
       message:
         type: "string"
+        example: "Transactions for the current month retrieved successfully"
       body:
         type: "array"
         items:
@@ -231,8 +436,10 @@ definitions:
     properties:
       status:
         type: "integer"
+        example: 200
       message:
         type: "string"
+        example: "Transaction information updated successfully"
       body:
         $ref: "#/definitions/TransactionDetail"
   AccountsResponse:
