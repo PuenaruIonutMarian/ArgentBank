@@ -1,4 +1,4 @@
-# Tableau de bord de Sportsee - projet 12 Openclassrooms
+# Application bancaire Argent Bank - projet 13 Openclassrooms
 
 Ce projet est une application bancaire en utilisant React et Redux pour créer une expérience utilisateur dynamique et réactive.
 
