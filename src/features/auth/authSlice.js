@@ -20,11 +20,11 @@ export const loginAsync = createAsyncThunk(
       return response.body.token;
     } catch (error) {
       if (error.message.includes('Password is invalid')) {
-        return rejectWithValue('Mot de passe incorrect');
+        return rejectWithValue('Incorrect password');
       } else if (error.message.includes('User not found')) {
-        return rejectWithValue("L'utilisateur n'existe pas");
+        return rejectWithValue('User does not exist');
       } else {
-        return rejectWithValue('Une erreur inconnue est survenue');
+        return rejectWithValue('An unknown error has occurred');
       }
     }
   }
