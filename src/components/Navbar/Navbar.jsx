@@ -33,7 +33,7 @@ const Navbar = () => {
       <div className={style.mainNavItems}>
         {!token ? (
           <Link to="/signin" className={style.mainNavItem}>
-            <FaUserCircle /> <span>Se connecter</span>
+            <FaUserCircle /> <span>Sign In</span>
           </Link>
         ) : (
           <>
@@ -41,7 +41,7 @@ const Navbar = () => {
               <FaUserCircle /> <span>{user ? user.firstName : 'Profil'}</span>
             </Link>
             <Link to="/" className={style.mainNavItem} onClick={handleLogout}>
-              <MdLogout /> <span>Se déconnecter</span>
+              <MdLogout /> <span>Sign Out</span>
             </Link>
           </>
         )}

@@ -40,7 +40,7 @@ const Header = ({ firstName, lastName, isEditing }) => {
     <div className={style.header}>
       {isEditing ? (
         <div>
-          <h1 className={style.headerTitleEditing}>Bienvenue de nouveau</h1>
+          <h1 className={style.headerTitleEditing}>Welcome back</h1>
           <div className={style.InputContainer}>
             <input
               type="text"
@@ -56,17 +56,17 @@ const Header = ({ firstName, lastName, isEditing }) => {
             />
           </div>
           <div className={style.buttonContainer}>
-            <button className={style.SaveEditButton} onClick={handleSaveClick}>Enregistrer</button>
-            <button className={style.CancelEditButton} onClick={() => dispatch(setIsEditing(false))}>Annuler</button>
+            <button className={style.SaveEditButton} onClick={handleSaveClick}>Save</button>
+            <button className={style.CancelEditButton} onClick={() => dispatch(setIsEditing(false))}>Cancel</button>
           </div>
         </div>
       ) : (
         <>
           <h1 className={style.headerTitle}>
-            Bienvenue de nouveau <br /> {firstName} {lastName} !
+            Welcome back <br /> {firstName} {lastName} !
           </h1>
           <button className={style.editButton} onClick={handleEditClick}>
-            Modifier le nom
+            Edit Name
           </button>
         </>
       )}
